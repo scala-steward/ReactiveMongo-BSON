@@ -28,8 +28,6 @@ val commonSettings = Seq(
 val reactivemongoShaded = Def.setting[Seq[ModuleID]] {
   val v = (ThisBuild / version).value
 
-  println(s"==> $v")
-
   if (Common.useShaded.value) {
     Seq("org.reactivemongo" % "reactivemongo-shaded" % v % Provided)
   } else {
