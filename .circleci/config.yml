@@ -81,10 +81,6 @@ commands:
                       exit 1
                     fi
 
-                    # Make sure to export variables before the first call to `sbt`
-                    # so that the variable are defined in the SBT server;
-                    # Otherwise `sbt` will then run a client connected to a server
-                    # where the variables defined meanwhile are not available.
                     export REACTIVEMONGO_SHADED="<< parameters.shaded >>"
          
                     export PUBLISH_REPO_NAME="Sonatype Nexus Repository Manager"
@@ -93,12 +89,6 @@ commands:
                     
                     V=$(sbt --server 'show version' 2>&1 | sed 's/\x1b\[0[Jm]//g' | grep --color=never '[0-9]\+\.[0-9]\+' | tail -1 | sed 's/\[info\]//' | xargs | tr -cd '[:alnum:]._-')
 
-                    if [ `echo "$V" | grep -- '-SNAPSHOT' | wc -l` -eq 0 ]; then
-                      S=`echo "$V" | perl -pe 's/([0-9]+)$/${\($1 + 1)}-SNAPSHOT/'`
-                      echo "Cannot bump $V to $S"
-                      echo "ThisBuild / version := \"$S\"" > version.sbt
-                    fi
-              
                     sbt --server "++<< parameters.scala_version >>" publish
 
 jobs:
