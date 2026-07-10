@@ -1495,12 +1495,14 @@ private[api] object MacroImpl:
                   subReader.readTry(_: BSONValue)
                 }
 
-                Some('{
-                  given leafReader: BSONReader[at] =
-                    BSONReader.from[at](${ tryRead })
+                Some(
+                  '{
+                    given leafReader: BSONReader[at] =
+                      BSONReader.from[at](${ tryRead })
 
-                  scala.compiletime.summonInline[BSONReader[T]]
-                })
+                    scala.compiletime.summonInline[BSONReader[T]]
+                  }
+                )
               }
 
               case tt @ '[at] => {
@@ -1528,12 +1530,14 @@ private[api] object MacroImpl:
                   subReader.readTry(_: BSONDocument)
                 }
 
-                Some('{
-                  given leafReader: BSONDocumentReader[at] =
-                    BSONDocumentReader.from[at](${ tryRead })
+                Some(
+                  '{
+                    given leafReader: BSONDocumentReader[at] =
+                      BSONDocumentReader.from[at](${ tryRead })
 
-                  scala.compiletime.summonInline[BSONReader[T]]
-                })
+                    scala.compiletime.summonInline[BSONReader[T]]
+                  }
+                )
               }
             }
           }
@@ -1836,11 +1840,12 @@ private[api] object MacroImpl:
       CaseDef(
         Bind(bind, Typed(Wildcard(), Inferred(tpr))),
         guard = None,
-        rhs = '{
-          def discriminator = ${ discriminatorElement[T](config) }
+        rhs =
+          '{
+            def discriminator = ${ discriminatorElement[T](config) }
 
-          ${ body }.map { _ ++ discriminator }
-        }.asTerm
+            ${ body }.map { _ ++ discriminator }
+          }.asTerm
       )
     }
 
@@ -2400,12 +2405,14 @@ private[api] object MacroImpl:
                   subWriter.writeTry(_: at)
                 }
 
-                Some('{
-                  given leafWriter: BSONWriter[at] =
-                    BSONWriter.from[at](${ tryWrite })
+                Some(
+                  '{
+                    given leafWriter: BSONWriter[at] =
+                      BSONWriter.from[at](${ tryWrite })
 
-                  scala.compiletime.summonInline[BSONWriter[T]]
-                })
+                    scala.compiletime.summonInline[BSONWriter[T]]
+                  }
+                )
               }
 
               case tt @ '[at] => {
@@ -2429,12 +2436,14 @@ private[api] object MacroImpl:
                   subWriter.writeTry(_: at)
                 }
 
-                Some('{
-                  given leafWriter: BSONWriter[at] =
-                    BSONWriter.from[at](${ tryWrite })
+                Some(
+                  '{
+                    given leafWriter: BSONWriter[at] =
+                      BSONWriter.from[at](${ tryWrite })
 
-                  scala.compiletime.summonInline[BSONWriter[T]]
-                })
+                    scala.compiletime.summonInline[BSONWriter[T]]
+                  }
+                )
               }
             }
           }
