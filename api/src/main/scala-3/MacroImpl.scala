@@ -1840,12 +1840,11 @@ private[api] object MacroImpl:
       CaseDef(
         Bind(bind, Typed(Wildcard(), Inferred(tpr))),
         guard = None,
-        rhs =
-          '{
-            def discriminator = ${ discriminatorElement[T](config) }
+        rhs = '{
+          def discriminator = ${ discriminatorElement[T](config) }
 
-            ${ body }.map { _ ++ discriminator }
-          }.asTerm
+          ${ body }.map { _ ++ discriminator }
+        }.asTerm
       )
     }
 
